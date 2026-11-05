@@ -1,11 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-<defs><radialGradient id="bg"><stop stop-color="#17283b"/><stop offset="1" stop-color="#05080e"/></radialGradient><radialGradient id="earth"><stop stop-color="#173e58"/><stop offset="1" stop-color="#07121e"/></radialGradient><filter id="glow"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
-<rect x="10" y="10" width="492" height="492" rx="100" fill="url(#bg)" stroke="#ff3448" stroke-width="7"/>
-<circle cx="256" cy="236" r="164" fill="none" stroke="#ff3448" stroke-width="7" opacity=".9" filter="url(#glow)"/>
-<circle cx="256" cy="236" r="145" fill="url(#earth)" stroke="#9ac7e6" stroke-width="2"/>
-<g fill="none" stroke="#ff5363" stroke-width="2" opacity=".8"><ellipse cx="256" cy="236" rx="66" ry="145"/><ellipse cx="256" cy="236" rx="120" ry="145"/><path d="M111 236h290M126 176h260M126 296h260"/></g>
-<path d="M178 143l34-16 24 10 5 22-25 14-7 25-23-7-20-25zm95 12 30-12 30 17-8 25-27 5-13 27-23-13 8-25zm-42 90 30-15 25 15 4 27-26 18-10 38-27-9-11-37zm83 47 27-8 19 21-12 30-28 7-18-23z" fill="#a7c6d6" opacity=".7"/>
-<g stroke="#ff354a" fill="none" stroke-width="4" filter="url(#glow)"><circle cx="207" cy="197" r="19"/><circle cx="315" cy="272" r="23"/><path d="M207 165v64m-32-32h64M315 237v70m-35-35h70"/></g>
-<path d="M256 37v37M256 398v40M37 236h37M438 236h37" stroke="#ff354a" stroke-width="5" filter="url(#glow)"/>
-<text x="256" y="456" text-anchor="middle" fill="#f5f7fa" font-family="Arial,sans-serif" font-weight="900" font-size="43" letter-spacing="1">WORLDWATCH</text>
+<defs><radialGradient id="bg"><stop stop-color="#17344d"/><stop offset="1" stop-color="#050a12"/></radialGradient><radialGradient id="globe"><stop stop-color="#174a69"/><stop offset="1" stop-color="#071521"/></radialGradient><filter id="glow"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+<rect width="512" height="512" rx="112" fill="url(#bg)"/>
+<circle cx="256" cy="248" r="198" fill="none" stroke="#ff354a" stroke-width="9" opacity=".9" filter="url(#glow)"/>
+<circle cx="256" cy="248" r="174" fill="url(#globe)" stroke="#27b9ff" stroke-width="5"/>
+<g fill="none" stroke="#91cde8" stroke-width="3" opacity=".85"><ellipse cx="256" cy="248" rx="75" ry="174"/><ellipse cx="256" cy="248" rx="137" ry="174"/><path d="M82 248h348M102 176h308M102 320h308"/></g>
+<path d="M150 154l42-22 31 13 7 27-32 20-10 31-29-10-18-34zm119 20 37-16 37 20-10 31-34 7-16 31-28-17 10-34zm-53 111 38-20 32 20 5 35-33 24-13 48-35-12-14-47zm103 48 34-10 24 27-15 38-35 8-23-29z" fill="#9cc6d9" opacity=".78"/>
+<g fill="none" stroke="#ff354a" stroke-width="7" filter="url(#glow)"><circle cx="197" cy="205" r="24"/><path d="M197 165v80m-40-40h80"/><circle cx="329" cy="292" r="27"/><path d="M329 249v86m-43-43h86"/></g>
+<g stroke="#27b9ff" stroke-width="8" stroke-linecap="round"><path d="M256 28v36M256 432v36M28 248h36M448 248h36"/></g>
+<g fill="#ff354a"><path d="M76 90h58v10H86v48H76zM436 90h-58v10h48v48h10zM76 406h10v48h48v10H76zM436 406h-10v48h-48v10h58z"/></g>
+<circle cx="374" cy="133" r="11" fill="#ff354a" filter="url(#glow)"/><circle cx="133" cy="348" r="8" fill="#27b9ff" filter="url(#glow)"/>
 </svg>
