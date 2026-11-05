@@ -45,7 +45,7 @@ async function loadNews(){
    }).filter(item=>item.title&&url(item.url)!=='#');
   };
   const results=await Promise.allSettled(feeds.map(getFeed));
-  const conflictPattern=/\\b(conflict|war|warfare|invasion|occupation|ceasefire|peace talks|airstrike|air strike|missile|drone strike|shelling|frontline|front line|battle|offensive|troops|military|armed forces|army|navy|air force|nato|ukraine|russia|gaza|israel|palestine|palestinian|hamas|hezbollah|iran|lebanon|syria|yemen|houthi|sudan|myanmar|taiwan|north korea|south china sea|terrorism|insurgency|rebel|militia|coup|geopolitic|sanction|defence|defense|security crisis|weapons|arms deal|nuclear threat|hostage|war crime|humanitarian crisis)\\b/i;
+  const conflictPattern=/\b(conflict|war|warfare|invasion|occupation|ceasefire|peace talks|airstrike|air strike|missile|drone strike|shelling|frontline|front line|battle|offensive|troops|military|armed forces|army|navy|air force|nato|ukraine|russia|gaza|israel|palestine|palestinian|hamas|hezbollah|iran|lebanon|syria|yemen|houthi|sudan|myanmar|taiwan|north korea|south china sea|terrorism|insurgency|rebel|militia|coup|geopolitic|sanction|defence|defense|security crisis|weapons|arms deal|nuclear threat|hostage|war crime|humanitarian crisis)\b/i;
   const items=results.filter(r=>r.status==='fulfilled').flatMap(r=>r.value).filter(item=>conflictPattern.test(item.title));
   const unique=[...new Map(items.map(item=>[item.url,item])).values()];
   if(!unique.length){
@@ -103,7 +103,7 @@ async function loadVideos(){
   };
   const results=await Promise.allSettled(feeds.map(getFeed));
   const all=results.filter(r=>r.status==='fulfilled').flatMap(r=>r.value);
-  const relevant=all.filter(v=>/\\b(conflict|war|warfare|invasion|occupation|ceasefire|peace talks|airstrike|air strike|missile|drone strike|shelling|frontline|front line|battle|offensive|troops|military|armed forces|army|navy|air force|nato|ukraine|russia|gaza|israel|palestine|palestinian|hamas|hezbollah|iran|lebanon|syria|yemen|houthi|sudan|myanmar|taiwan|north korea|south china sea|terrorism|insurgency|rebel|militia|coup|geopolitic|sanction|defence|defense|security crisis|weapons|arms deal|nuclear threat|hostage|war crime|humanitarian crisis)\\b/i.test(v.title));
+  const relevant=all.filter(v=>/\b(conflict|war|warfare|invasion|occupation|ceasefire|peace talks|airstrike|air strike|missile|drone strike|shelling|frontline|front line|battle|offensive|troops|military|armed forces|army|navy|air force|nato|ukraine|russia|gaza|israel|palestine|palestinian|hamas|hezbollah|iran|lebanon|syria|yemen|houthi|sudan|myanmar|taiwan|north korea|south china sea|terrorism|insurgency|rebel|militia|coup|geopolitic|sanction|defence|defense|security crisis|weapons|arms deal|nuclear threat|hostage|war crime|humanitarian crisis)\b/i.test(v.title));
   videos=[...new Map(relevant.map(v=>[v.videoId,v])).values()].sort((a,b)=>Date.parse(b.date)-Date.parse(a.date)).slice(0,18);
   const current=document.querySelector('#videos');if(current)current.innerHTML=videos.length?videoCards():'<div class="empty">No recent conflict-related videos were returned. Try again later.</div>';
  }catch(error){
