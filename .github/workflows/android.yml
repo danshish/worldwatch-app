@@ -41,11 +41,11 @@ jobs:
           from pathlib import Path
           gradle=Path('android/app/build.gradle')
           text=gradle.read_text()
-          text=text.replace('dependencies {', 'dependencies {\\n    implementation "androidx.work:work-runtime:2.10.0"', 1)
+          text=text.replace('dependencies {', 'dependencies {' + chr(10) + '    implementation "androidx.work:work-runtime:2.10.0"', 1)
           gradle.write_text(text)
           manifest=Path('android/app/src/main/AndroidManifest.xml')
           text=manifest.read_text()
-          text=text.replace('<application', '<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />\\n    <application', 1)
+          text=text.replace('<application', '<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />' + chr(10) + '    <application', 1)
           manifest.write_text(text)
           PY
       - name: Apply WORLDWATCH Android launcher icon
