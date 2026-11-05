@@ -1,0 +1,8 @@
+{
+  "name": "WORLDWATCH",
+  "short_name": "Worldwatch",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#090d14",
+  "theme_color": "#090d14"
+}
