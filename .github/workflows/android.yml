@@ -31,11 +31,8 @@ jobs:
             <path android:fillColor="#00000000" android:strokeColor="#FF354A" android:strokeWidth="2.5" android:pathData="M54,35 A9,9 0,1 0,54 53 A9,9 0,1 0,54 35 M54,27v34 M37,44h34 M72,63 A11,11 0,1 0,72 85 A11,11 0,1 0,72 63 M72,58v32 M56,74h32"/>
           </vector>
           EOF
-          cat > android/app/src/main/res/values/ic_worldwatch.xml <<'EOF'
-          <resources><color name="ic_launcher_background">#090D14</color></resources>
-          EOF
           cat > android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml <<'EOF'
-          <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android"><background android:drawable="@color/ic_launcher_background"/><foreground android:drawable="@drawable/ic_worldwatch_foreground"/></adaptive-icon>
+          <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android"><background android:drawable="@android:color/black"/><foreground android:drawable="@drawable/ic_worldwatch_foreground"/></adaptive-icon>
           EOF
           cp android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml android/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml
       - run: npx cap sync android
