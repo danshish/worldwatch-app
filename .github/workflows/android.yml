@@ -25,10 +25,15 @@ jobs:
           mkdir -p android/app/src/main/res/drawable android/app/src/main/res/mipmap-anydpi-v26 android/app/src/main/res/values
           cat > android/app/src/main/res/drawable/ic_worldwatch_foreground.xml <<'EOF'
           <vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">
-            <path android:fillColor="#090D14" android:pathData="M0,0h108v108h-108z"/>
-            <path android:fillColor="#00000000" android:strokeColor="#FF354A" android:strokeWidth="3" android:pathData="M54,10 A44,44 0,1 0,54 98 A44,44 0,1 0,54 10"/>
-            <path android:fillColor="#00000000" android:strokeColor="#9AC7E6" android:strokeWidth="1.5" android:pathData="M54,16 A38,38 0,1 0,54 92 A38,38 0,1 0,54 16 M16,54h76 M54,16v76 M30,54 C30,32 40,16 54,16 C68,16 78,32 78,54 C78,76 68,92 54,92 C40,92 30,76 30,54"/>
-            <path android:fillColor="#00000000" android:strokeColor="#FF354A" android:strokeWidth="2.5" android:pathData="M54,35 A9,9 0,1 0,54 53 A9,9 0,1 0,54 35 M54,27v34 M37,44h34 M72,63 A11,11 0,1 0,72 85 A11,11 0,1 0,72 63 M72,58v32 M56,74h32"/>
+            <path android:fillColor="#07101B" android:pathData="M0,0h108v108h-108z"/>
+            <path android:fillColor="#10283B" android:pathData="M54,12 A42,42 0,1 0,54 96 A42,42 0,1 0,54 12"/>
+            <path android:fillColor="#00000000" android:strokeColor="#27B9FF" android:strokeWidth="2.4" android:pathData="M54,12 A42,42 0,1 0,54 96 A42,42 0,1 0,54 12"/>
+            <path android:fillColor="#00000000" android:strokeColor="#8CCCEB" android:strokeWidth="1.3" android:pathData="M54,13 C29,13 18,31 18,54 C18,77 29,95 54,95 C79,95 90,77 90,54 C90,31 79,13 54,13 M54,13 C38,30 35,77 54,95 M54,13 C70,30 73,77 54,95 M14,54h80 M22,35h64 M22,73h64"/>
+            <path android:fillColor="#8CCCEB" android:pathData="M28,35l10,-7 8,4 2,8 -9,5 -4,9 -8,-4 -5,-9z M59,29l10,-5 9,8 -3,8 -10,3 -5,8 -8,-5 2,-9z M40,59l11,-6 10,6 2,10 -10,7 -4,12 -9,-3 -4,-12z M67,67l9,-3 7,8 -4,9 -10,2 -6,-7z"/>
+            <path android:fillColor="#00000000" android:strokeColor="#FF354A" android:strokeWidth="2.8" android:pathData="M13,24l11,-11 M84,13l11,11 M13,84l11,11 M84,95l11,-11"/>
+            <path android:fillColor="#00000000" android:strokeColor="#FF354A" android:strokeWidth="2.2" android:pathData="M36,42h18v18h-18z M45,36v30 M30,51h30"/>
+            <path android:fillColor="#FF354A" android:pathData="M76,24m-5,0a5,5 0,1 0,10 0a5,5 0,1 0,-10 0"/>
+            <path android:fillColor="#27B9FF" android:pathData="M78,75m-3,0a3,3 0,1 0,6 0a3,3 0,1 0,-6 0"/>
           </vector>
           EOF
           cat > android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml <<'EOF'
