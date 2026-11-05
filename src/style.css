@@ -13,3 +13,11 @@ nav{gap:0}nav button{flex:1;max-width:150px;min-width:0;padding:12px 8px;white-s
 .map-filters{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 8px}.map-filters button{font-size:10px;letter-spacing:1px}.map-filters button.active{background:#1d4963;border-color:#27b9ff;color:#fff;box-shadow:inset 0 0 0 1px #27b9ff}.map-filters button[data-map-filter="unrest"].active{background:#38264a;border-color:#d69cff}
 
 .emergency-feature{margin:20px 0;padding:22px;background:linear-gradient(120deg,#321b24,#151c2a);border:1px solid #8b3b48;border-left:4px solid #ff5363;border-radius:5px}.emergency-feature small{font:9px 'DM Mono';letter-spacing:1.5px;color:#ff8490}.emergency-feature h3{font-size:21px;margin:10px 0}.emergency-feature p{color:#c2cbd6;font-size:13px;line-height:1.6}.emergency-feature a,.grid article a{display:inline-block;margin-top:10px;color:#66caff;font-size:11px;font-weight:700;text-decoration:none;letter-spacing:.5px}.grid article a{line-height:1.5}
+
+/* Regional intelligence watchlist */
+.region-watchlist{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:18px 0}
+.region-watch-head{grid-column:1/-1;display:flex;justify-content:space-between;gap:12px;color:var(--muted,#91a0b8);font-size:10px;letter-spacing:1.4px}
+.region-tile{min-width:0;text-align:left;padding:13px 10px;border:1px solid var(--line,#29364a);border-radius:10px;background:var(--panel,#111c2d);color:inherit;display:flex;flex-direction:column;gap:7px;cursor:pointer}
+.region-tile b{font-size:10px;letter-spacing:.6px;overflow-wrap:anywhere}.region-tile strong{font-size:24px;color:var(--text,#f4f7fb)}.region-tile small{font-size:9px;color:var(--muted,#91a0b8);letter-spacing:1px}
+.region-tile.selected,.region-tile:focus{border-color:#48c8d8;outline:none;box-shadow:0 0 0 1px #48c8d8}.region-tile:hover{border-color:#48c8d8}
+@media(max-width:560px){.region-watchlist{grid-template-columns:repeat(2,minmax(0,1fr))}.region-tile{padding:12px}}
