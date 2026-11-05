@@ -17,6 +17,11 @@ jobs:
         with:
           distribution: temurin
           java-version: '21'
+      - name: Restore the same Android debug signing key on every build
+        uses: actions/cache@v4
+        with:
+          path: ~/.android/debug.keystore
+          key: worldwatch-android-debug-signing-key-v1
       - run: npm install
       - run: npm run build
       - run: npx cap add android
