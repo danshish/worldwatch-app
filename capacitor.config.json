@@ -5,6 +5,14 @@
   "plugins": {
     "CapacitorHttp": {
       "enabled": false
+    },
+    "BackgroundRunner": {
+      "label": "com.worldwatch.alerts",
+      "src": "runners/background.js",
+      "event": "checkForUpdates",
+      "repeat": true,
+      "interval": 15,
+      "autoStart": true
     }
   }
 }
