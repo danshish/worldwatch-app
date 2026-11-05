@@ -17,6 +17,8 @@ jobs:
         with:
           distribution: temurin
           java-version: '21'
+      - name: Install background notification plugins
+        run: npm install @capacitor/background-runner@latest-7 @capacitor/local-notifications@latest-7
       - run: npm install
       - run: npm run build
       - run: npx cap add android
