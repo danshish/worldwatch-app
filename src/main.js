@@ -29,7 +29,7 @@ function readyView(){return '<main><section class="hero"><small>PERSONAL READINE
 function esc(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}function url(s=''){try{let u=new URL(s);return ['http:','https:'].includes(u.protocol)?u.href:'#'}catch{return '#'}}
 function render(){if(page==='home'){shell(home());bindNotificationSettings();}if(page==='map'){shell(mapView());if(map)map.remove();map=L.map('map').setView([25,15],2);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);places.forEach(p=>L.circleMarker([p[1],p[2]],{radius:8,color:p[3]==='CONFLICT'?'#ff5363':'#f4bd55',fillOpacity:.8}).addTo(map).bindPopup('<b>'+p[0]+'</b><br>'+p[3]+'<br>'+p[4]));setTimeout(()=>map.invalidateSize(),120)}if(page==='intel'){shell(intelView());bindIntel();if(!news.length)loadNews()}if(page==='videos'){shell(videosView());document.querySelector('#refresh-videos').onclick=loadVideos;if(!videos.length&&!videosLoading)loadVideos()}if(page==='ready'){shell(readyView());document.querySelectorAll('[data-check]').forEach(el=>el.onchange=()=>{let a=saved(),i=+el.dataset.check;localStorage.setItem('ww-checks',JSON.stringify(el.checked?[...new Set([...a,i])]:a.filter(x=>x!==i)))});document.querySelector('#reset').onclick=()=>{localStorage.removeItem('ww-checks');render()}}}
 async function loadNews(){
- const box=document.querySelector('#news');if(!box)return;
+ const box=document.querySelector('#news');
  const button=document.querySelector('#refresh');
  const status=message=>{const current=document.querySelector('#news');if(current)current.innerHTML='<div class="empty">'+esc(message)+'</div>'};
  if(button){button.disabled=true;button.textContent='LOADING…'}
@@ -83,7 +83,7 @@ async function loadNews(){
 function videoCards(){return videos.map(v=>'<article class="video-card"><a class="video-thumb" href="'+url(v.url)+'" target="_blank" rel="noopener"><img src="'+url(v.thumbnail)+'" alt="" loading="lazy"><span>▶ WATCH VIDEO</span></a><div class="video-meta"><small>'+esc(v.source)+' · '+esc(v.date||'LATEST VIDEO')+'</small><h3>'+esc(v.title)+'</h3><a href="'+url(v.url)+'" target="_blank" rel="noopener">OPEN ORIGINAL VIDEO ↗</a></div></article>').join('')}
 async function loadVideos(){
  if(videosLoading)return;
- const box=document.querySelector('#videos');if(!box)return;
+ const box=document.querySelector('#videos');
  videosLoading=true;
  const button=document.querySelector('#refresh-videos');if(button){button.disabled=true;button.textContent='LOADING…'}
  const feeds=[
@@ -132,4 +132,5 @@ async function loadVideos(){
  }
 }
 render();if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));
-setInterval(()=>{if(document.visibilityState!=='visible')return;if(page==='intel')loadNews();if(page==='videos')loadVideos()},15*60*1000);
+loadNews();loadVideos();
+setInterval(()=>{if(document.visibilityState!=='visible')return;loadNews();loadVideos()},15*60*1000);
