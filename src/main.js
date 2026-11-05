@@ -1,4 +1,4 @@
-import L from 'leaflet';import 'leaflet/dist/leaflet.css';import './style.css';
+import L from 'leaflet';import { CapacitorHttp,Capacitor } from '@capacitor/core';import 'leaflet/dist/leaflet.css';import './style.css';
 const app=document.querySelector('#app'),tabs=[['home','HOME'],['map','GLOBAL MAP'],['intel','INTELLIGENCE'],['ready','PREPARE']];
 const places=[['Ukraine',48.38,31.16,'CONFLICT','Ongoing war; follow verified reporting and official travel advice.'],['Gaza / Israel',31.5,34.8,'CONFLICT','Ongoing conflict and humanitarian emergency.'],['Sudan',15.5,32.5,'CONFLICT','Armed conflict and severe humanitarian needs.'],['Myanmar',21.9,95.9,'UNREST','Continuing armed conflict and instability.'],['Korean Peninsula',38.2,127.2,'TENSION','Long-running military and diplomatic tensions.'],['Taiwan Strait',24,120.4,'TENSION','Cross-strait tensions; exercises do not alone indicate imminent war.']];
 let page='home',map,news=[];const checklist=['Drinking water and non-perishable food','Essential medicines and first-aid kit','Torch, batteries and power bank','Battery or wind-up radio','Written emergency contacts','Family meeting point and contact plan','Copies of important documents','Pet supplies and basic hygiene items'];
@@ -15,37 +15,27 @@ async function loadNews(){
  const button=document.querySelector('#refresh');
  const status=message=>{const current=document.querySelector('#news');if(current)current.innerHTML='<div class="empty">'+esc(message)+'</div>'};
  if(button){button.disabled=true;button.textContent='LOADING…'}
- const request=async(url,ms,label)=>{
-  status(label);
-  const controller=new AbortController();
-  const timer=setTimeout(()=>controller.abort(),ms);
-  try{const response=await fetch(url,{cache:'no-store',signal:controller.signal});if(!response.ok)throw new Error('HTTP '+response.status);return response;}
-  catch(error){if(error.name==='AbortError')throw new Error('Connection timed out after '+Math.round(ms/1000)+' seconds.');throw error;}
-  finally{clearTimeout(timer)}
- };
  try{
-  let items=[],lastError;
-  const feed='https://api.gdeltproject.org/api/v2/doc/doc?query=war%20OR%20conflict%20OR%20NATO%20OR%20diplomacy&mode=ArtList&format=rss&maxrecords=20&sort=DateDesc';
-  try{
-   const response=await request('https://proxy.cors.dev/'+feed,12000,'Trying the global news gateway…');
-   const xml=await response.text();
-   const doc=new DOMParser().parseFromString(xml,'text/xml');
-   if(doc.querySelector('parsererror'))throw new Error('The news gateway returned invalid RSS.');
-   items=[...doc.querySelectorAll('item')].map(item=>({title:item.querySelector('title')?.textContent?.trim(),url:item.querySelector('link')?.textContent?.trim(),seendate:item.querySelector('pubDate')?.textContent?.trim(),domain:'GDELT global news'})).filter(item=>item.title&&item.url);
-  }catch(error){lastError=error}
-  if(!items.length){
-   const params=new URLSearchParams({query:'war OR conflict OR NATO OR diplomacy',mode:'ArtList',format:'json',maxrecords:'20',sort:'DateDesc'});
-   try{
-    const response=await request('https://api.gdeltproject.org/api/v2/doc/doc?'+params.toString(),12000,'Gateway unavailable. Trying GDELT directly…');
-    const data=await response.json();
-    items=(data.articles||[]).filter(a=>a.title&&a.url).map(a=>({title:a.title,url:a.url,seendate:a.seendate,domain:a.domain}));
-   }catch(error){lastError=error}
+  status('Connecting securely to the global news index…');
+  const query=new URLSearchParams({query:'war OR conflict OR NATO OR diplomacy',mode:'ArtList',format:'json',maxrecords:'20',sort:'DateDesc'});
+  const endpoint='https://api.gdeltproject.org/api/v2/doc/doc?'+query.toString();
+  let data;
+  if(Capacitor.isNativePlatform()){
+   const response=await CapacitorHttp.get({url:endpoint,connectTimeout:15000,readTimeout:20000,headers:{Accept:'application/json'}});
+   if(response.status<200||response.status>=300)throw new Error('News provider returned HTTP '+response.status);
+   data=typeof response.data==='string'?JSON.parse(response.data):response.data;
+  }else{
+   const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),15000);
+   try{const response=await fetch(endpoint,{cache:'no-store',signal:controller.signal});if(!response.ok)throw new Error('News provider returned HTTP '+response.status);data=await response.json();}
+   finally{clearTimeout(timer)}
   }
-  if(!items.length)throw new Error(lastError?.message||'No reports were returned by the news provider.');
+  const items=(data.articles||[]).filter(a=>a.title&&a.url).map(a=>({title:a.title,url:a.url,seendate:a.seendate,domain:a.domain}));
+  if(!items.length)throw new Error('The news provider responded, but returned no matching reports.');
   news=items.slice(0,20);render();
  }catch(error){
   const current=document.querySelector('#news');
-  if(current)current.innerHTML='<div class="empty"><b>News connection failed.</b><br>'+esc(error.message||'Unknown connection error')+'<br><br>Tap REFRESH REPORTS to try again.</div>';
+  const detail=error.message||String(error);
+  if(current)current.innerHTML='<div class="empty"><b>News connection failed.</b><br>'+esc(detail)+'<br><br>Tap REFRESH REPORTS to try again.</div>';
  }finally{
   const b=document.querySelector('#refresh');if(b){b.disabled=false;b.textContent='↻ REFRESH REPORTS'}
  }
