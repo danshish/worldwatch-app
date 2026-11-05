@@ -13,23 +13,34 @@ function render(){if(page==='home')shell(home());if(page==='map'){shell(mapView(
 async function loadNews(){
  const box=document.querySelector('#news');if(!box)return;
  const button=document.querySelector('#refresh');if(button){button.disabled=true;button.textContent='LOADING…'}
- box.innerHTML='<div class="empty">Connecting to the global news index…</div>';
- const params=new URLSearchParams({query:'war OR conflict OR NATO OR diplomacy',mode:'ArtList',format:'json',maxrecords:'20',sort:'DateDesc'});
- const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),20000);
+ box.innerHTML='<div class="empty">Connecting to global news sources…</div>';
+ const timeout=(promise,ms)=>Promise.race([promise,new Promise((_,reject)=>setTimeout(()=>reject(new Error('The news connection timed out.')),ms))]);
  try{
-  const response=await fetch('https://api.gdeltproject.org/api/v2/doc/doc?'+params.toString(),{method:'GET',headers:{Accept:'application/json'},signal:controller.signal,cache:'no-store'});
-  if(!response.ok)throw new Error('News provider returned HTTP '+response.status);
-  const data=await response.json();
-  if(!Array.isArray(data.articles)||data.articles.length===0)throw new Error('The news provider returned no matching articles. Try again shortly.');
-  news=data.articles.filter(a=>a.title&&a.url).slice(0,20);
-  if(!news.length)throw new Error('The news provider returned articles without usable links.');
-  render();
+  const feedUrl='https://api.gdeltproject.org/api/v2/doc/doc?query=war%20OR%20conflict%20OR%20NATO%20OR%20diplomacy&mode=ArtList&format=rss&maxrecords=20&sort=DateDesc';
+  let items=[];
+  try{
+   const response=await timeout(fetch('https://proxy.cors.dev/'+feedUrl,{cache:'no-store'}),15000);
+   if(!response.ok)throw new Error('News feed gateway returned HTTP '+response.status);
+   const xml=await timeout(response.text(),10000);
+   const doc=new DOMParser().parseFromString(xml,'text/xml');
+   if(doc.querySelector('parsererror'))throw new Error('News feed returned unreadable data.');
+   items=[...doc.querySelectorAll('item')].map(item=>({title:item.querySelector('title')?.textContent?.trim(),url:item.querySelector('link')?.textContent?.trim(),seendate:item.querySelector('pubDate')?.textContent?.trim(),domain:'GDELT global news'})).filter(item=>item.title&&item.url);
+  }catch(proxyError){
+   const params=new URLSearchParams({query:'war OR conflict OR NATO OR diplomacy',mode:'ArtList',format:'json',maxrecords:'20',sort:'DateDesc'});
+   const response=await timeout(fetch('https://api.gdeltproject.org/api/v2/doc/doc?'+params.toString(),{cache:'no-store'}),12000);
+   if(!response.ok)throw new Error('News provider returned HTTP '+response.status);
+   const data=await timeout(response.json(),8000);
+   items=(data.articles||[]).filter(a=>a.title&&a.url).map(a=>({title:a.title,url:a.url,seendate:a.seendate,domain:a.domain}));
+   if(!items.length)throw proxyError;
+  }
+  if(!items.length)throw new Error('No matching reports were returned. Try again shortly.');
+  news=items.slice(0,20);render();
  }catch(error){
   const current=document.querySelector('#news');
-  const message=error.name==='AbortError'?'The news request timed out after 20 seconds.':(error.message||'Could not connect to the news provider.');
-  if(current)current.innerHTML='<div class="empty"><b>News could not be loaded.</b><br>'+esc(message)+'<br><br>Check your internet connection and tap REFRESH REPORTS. The map and saved preparedness checklist are still available.</div>';
+  const message=error.message||'Could not connect to the global news sources.';
+  if(current)current.innerHTML='<div class="empty"><b>News could not be loaded.</b><br>'+esc(message)+'<br><br>Check your internet connection and tap REFRESH REPORTS. The map and saved preparedness checklist remain available.</div>';
  }finally{
-  clearTimeout(timer);const b=document.querySelector('#refresh');if(b){b.disabled=false;b.textContent='↻ REFRESH REPORTS'}
+  const b=document.querySelector('#refresh');if(b){b.disabled=false;b.textContent='↻ REFRESH REPORTS'}
  }
 }
 render();if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));
