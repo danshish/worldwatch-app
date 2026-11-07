@@ -41,3 +41,5 @@ nav{gap:0}nav button{flex:1;max-width:150px;min-width:0;padding:12px 8px;white-s
 
 /* New country developments */
 .new-count{color:#58c9d8;font-weight:800;letter-spacing:.5px}
+
+.map-country-open{margin-top:7px;padding:7px 10px;border:1px solid #36d5e8;border-radius:7px;background:#102b38;color:#dffaff;font-weight:700;font-size:11px}
