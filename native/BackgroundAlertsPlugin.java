@@ -12,6 +12,7 @@ import com.getcapacitor.annotation.*;
 import java.util.concurrent.TimeUnit;
 import java.util.HashSet;
 import java.util.Set;
+import org.json.JSONArray;
 
 @CapacitorPlugin(name = "BackgroundAlerts")
 public class BackgroundAlertsPlugin extends Plugin {
@@ -21,8 +22,14 @@ public class BackgroundAlertsPlugin extends Plugin {
     boolean videos = call.getBoolean("videos", false);
     Context context = getContext();
     SharedPreferences prefs = context.getSharedPreferences("worldwatch-alerts", Context.MODE_PRIVATE);
-    java.util.ArrayList<String> selected = call.getArrayList("countries", String.class);
-    Set<String> followed = selected == null ? new HashSet<>() : new HashSet<>(selected);
+    JSONArray selected = call.getData().optJSONArray("countries");
+    Set<String> followed = new HashSet<>();
+    if (selected != null) {
+      for (int i = 0; i < selected.length(); i++) {
+        String country = selected.optString(i, "");
+        if (!country.isEmpty()) followed.add(country);
+      }
+    }
     prefs.edit().putBoolean("news", news).putBoolean("videos", videos).putStringSet("followed-countries", followed).apply();
     WorkManager manager = WorkManager.getInstance(context);
     if (!news && !videos) {
