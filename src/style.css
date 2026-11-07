@@ -43,3 +43,52 @@ nav{gap:0}nav button{flex:1;max-width:150px;min-width:0;padding:12px 8px;white-s
 .new-count{color:#58c9d8;font-weight:800;letter-spacing:.5px}
 
 .map-country-open{margin-top:7px;padding:7px 10px;border:1px solid #36d5e8;border-radius:7px;background:#102b38;color:#dffaff;font-weight:700;font-size:11px}
+
+
+/* WORLDWATCH visual refinement — premium intelligence console */
+:root{color-scheme:dark;--ww-bg:#080d15;--ww-panel:#101a28;--ww-panel-2:#142235;--ww-line:#26384d;--ww-muted:#91a2b8;--ww-text:#eef4fb;--ww-cyan:#58d6e5;--ww-red:#ff6578}
+body{background:radial-gradient(ellipse at 50% -12%,#1c354c 0,transparent 48%),linear-gradient(180deg,#080d15 0%,#0a111b 55%,#080d15 100%);color:var(--ww-text);-webkit-font-smoothing:antialiased}
+header{height:72px;background:rgba(8,13,21,.92);border-bottom:1px solid rgba(105,143,177,.2);box-shadow:0 8px 30px #0003;backdrop-filter:blur(18px)}
+.logo{border-radius:14px;border-color:#4b718b;box-shadow:0 0 22px #58d6e51c}
+.brand b{font-size:14px;letter-spacing:2.4px}.brand small{color:#8ea6bc;letter-spacing:1.4px}
+.status{padding:7px 10px;border:1px solid #294253;border-radius:20px;background:#10202b;color:#8edce4}
+main{padding-top:28px}
+.hero{padding:34px 0 42px}
+.hero small,.heading small{color:#69cbd8;letter-spacing:2px}
+.hero h1{letter-spacing:-2.8px;font-weight:800}
+.hero em{color:var(--ww-cyan)}
+.hero p,.heading p{color:#a9b8c9;line-height:1.85}
+.heading h2{letter-spacing:-.7px}
+.grid article,.news,.notice,.video-card,.country-card,.country-profile,.watchlist-panel,.region-tile,.notification-settings{background:linear-gradient(145deg,rgba(20,34,51,.96),rgba(13,23,36,.98));border:1px solid var(--ww-line);border-radius:13px;box-shadow:0 10px 28px #00000020}
+.grid article,.news,.country-card{transition:border-color .18s ease,transform .18s ease,box-shadow .18s ease}
+.grid article:hover,.news:hover,.country-card:hover{border-color:#41647a;transform:translateY(-2px);box-shadow:0 14px 30px #0003}
+.grid h3,.news h3,.country-card h3{letter-spacing:-.25px;line-height:1.4}
+.grid p,.news p,.notice p,.country-card p{color:#a6b5c6;line-height:1.75}
+.primary,.secondary{border-radius:8px;padding:12px 16px;font-weight:700;transition:filter .15s ease,transform .15s ease}
+.primary{background:linear-gradient(135deg,#e64c61,#b92e49);border-color:#e65a6c;box-shadow:0 5px 16px #d63e552b}
+.secondary{background:#17283a;border-color:#3a5269}
+.primary:active,.secondary:active,nav button:active{transform:scale(.98)}
+button,a,select{ -webkit-tap-highlight-color:transparent}
+button:focus-visible,a:focus-visible,select:focus-visible{outline:2px solid var(--ww-cyan);outline-offset:3px}
+#map{border:1px solid #38536a;border-radius:14px;overflow:hidden;box-shadow:0 12px 30px #0004}
+nav{background:rgba(8,14,23,.94);border-top:1px solid #26394d;box-shadow:0 -10px 30px #0004;backdrop-filter:blur(18px)}
+nav button{color:#8d9db0;font-weight:600;letter-spacing:.4px;transition:color .15s ease}
+nav button.on{color:var(--ww-cyan);border-bottom:2px solid var(--ww-cyan);text-shadow:0 0 16px #58d6e544}
+.video-card{padding:13px}.video-thumb{border-radius:9px}.video-thumb span{border-radius:5px;background:#c63850}
+.intel-controls select{border-radius:8px;background:#101d2b;border-color:#344b61}
+.severity{border-radius:20px;padding:6px 9px;font-weight:700}
+.severity.high{background:#492330;color:#ff9aa7}.severity.elevated{background:#40351f;color:#f4d18b}.severity.monitor{background:#1b3548;color:#a9dcf6}
+.save-report,.follow-country{border-radius:8px;border-color:#3a5269;background:#142538}
+.breaking-panel,.emergency-feature{border-radius:13px;box-shadow:0 12px 30px #0003}
+.breaking-panel{background:linear-gradient(110deg,#351b28,#142132 72%);border-color:#75404e}
+.emergency-feature{background:linear-gradient(120deg,#30202a,#142132);border-color:#75404e}
+.region-tile{padding:15px 13px}.region-tile strong{color:var(--ww-cyan);font-variant-numeric:tabular-nums}
+.country-profile{border-color:#397987;box-shadow:0 14px 34px #0003}
+.watchlist-panel{border-color:#397987}
+.profile-actions a,.country-profile article>a,.notice a,.news a{color:#70dce8}
+.empty{border-radius:10px;border-color:#3a5269;background:#101b29}
+.checks label{border-radius:10px;background:#111e2d;border-color:#2b4056;line-height:1.5}
+.checks input,.notification-settings input{accent-color:#58d6e5}
+footer{color:#71849a}
+@media(max-width:620px){header{height:64px;padding-left:14px;padding-right:14px}.logo{width:42px;height:42px;flex-basis:42px}.hero{padding:26px 0 34px}.hero h1{letter-spacing:-1.8px}nav button{font-size:8px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
