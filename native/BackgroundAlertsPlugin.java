@@ -10,6 +10,8 @@ import androidx.work.WorkManager;
 import com.getcapacitor.*;
 import com.getcapacitor.annotation.*;
 import java.util.concurrent.TimeUnit;
+import java.util.HashSet;
+import java.util.Set;
 
 @CapacitorPlugin(name = "BackgroundAlerts")
 public class BackgroundAlertsPlugin extends Plugin {
@@ -19,7 +21,9 @@ public class BackgroundAlertsPlugin extends Plugin {
     boolean videos = call.getBoolean("videos", false);
     Context context = getContext();
     SharedPreferences prefs = context.getSharedPreferences("worldwatch-alerts", Context.MODE_PRIVATE);
-    prefs.edit().putBoolean("news", news).putBoolean("videos", videos).apply();
+    java.util.ArrayList<String> selected = call.getArrayList("countries", String.class);
+    Set<String> followed = selected == null ? new HashSet<>() : new HashSet<>(selected);
+    prefs.edit().putBoolean("news", news).putBoolean("videos", videos).putStringSet("followed-countries", followed).apply();
     WorkManager manager = WorkManager.getInstance(context);
     if (!news && !videos) {
       manager.cancelUniqueWork("worldwatch-background-alerts");
