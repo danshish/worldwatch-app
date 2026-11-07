@@ -49,6 +49,25 @@ public class WorldWatchAlertsWorker extends Worker {
     } catch (Exception e) { return Result.retry(); }
   }
 
+
+  private boolean matchesFollowedCountry(String title, SharedPreferences prefs) {
+    Set<String> followed = prefs.getStringSet("followed-countries", null);
+    if (followed == null || followed.isEmpty()) return true;
+    String text = title.toLowerCase(java.util.Locale.ROOT);
+    for (String id : followed) {
+      switch (id) {
+        case "ukraine": if (text.matches("(?s).*(ukraine|kyiv|kharkiv|odesa|donbas|donetsk|zaporizhzhia).*")) return true; break;
+        case "israel": if (text.matches("(?s).*(israel|tel aviv|jerusalem|israeli).*")) return true; break;
+        case "palestinian-territories": if (text.matches("(?s).*(gaza|palestin|west bank|rafah).*")) return true; break;
+        case "sudan": if (text.matches("(?s).*(sudan|khartoum|darfur).*")) return true; break;
+        case "myanmar": if (text.matches("(?s).*(myanmar|burma).*")) return true; break;
+        case "taiwan": if (text.matches("(?s).*(taiwan|taipei|taiwan strait).*")) return true; break;
+        case "north-korea": if (text.matches("(?s).*(north korea|dprk|pyongyang|korean peninsula).*")) return true; break;
+      }
+    }
+    return false;
+  }
+
   private void checkNews(Context c, SharedPreferences p) throws Exception {
     List<String> ids = new ArrayList<>(); List<String> titles = new ArrayList<>();
     for (String[] feed : NEWS) {
@@ -56,7 +75,7 @@ public class WorldWatchAlertsWorker extends Worker {
       Matcher m = Pattern.compile("(?is)<item\\b.*?</item>").matcher(xml);
       while (m.find()) {
         String title = tag(m.group(), "title"); String link = tag(m.group(), "link");
-        if (!title.isEmpty() && !link.isEmpty() && Pattern.compile(TOPICS).matcher(title).find()) { ids.add(link); titles.add(title); }
+        if (!title.isEmpty() && !link.isEmpty() && Pattern.compile(TOPICS).matcher(title).find() && matchesFollowedCountry(title, p)) { ids.add(link); titles.add(title); }
       }
     }
     notifyFresh(c, p, "news", ids, titles, 7101, "WORLDWATCH · New intelligence");
@@ -71,7 +90,7 @@ public class WorldWatchAlertsWorker extends Worker {
         String entry = m.group(); String title = tag(entry, "title");
         String id = tag(entry, "yt:videoId");
         if (id.isEmpty()) { String link = tag(entry, "link"); Matcher vm = Pattern.compile("[?&]v=([^&]+)").matcher(link); if (vm.find()) id = vm.group(1); }
-        if (!title.isEmpty() && !id.isEmpty() && Pattern.compile(TOPICS).matcher(title).find()) { ids.add(id); titles.add(title); }
+        if (!title.isEmpty() && !id.isEmpty() && Pattern.compile(TOPICS).matcher(title).find() && matchesFollowedCountry(title, p)) { ids.add(id); titles.add(title); }
       }
     }
     notifyFresh(c, p, "videos", ids, titles, 7102, "WORLDWATCH · New video briefing");
