@@ -101,3 +101,15 @@ header{height:auto;min-height:calc(72px + max(env(safe-area-inset-top),28px));pa
 .brand small{white-space:nowrap;font-size:clamp(7px,2vw,9px);letter-spacing:clamp(.5px,.25vw,1.4px)}
 .status{flex:0 0 auto;white-space:nowrap;padding:7px 9px;border:1px solid #294253;border-radius:20px;background:#10202b;color:#8edce4;font-size:8px}
 @media(max-width:390px){header{gap:8px;padding-left:10px;padding-right:10px}.logo{width:38px;height:38px;flex-basis:38px}.status{font-size:7px;padding:6px 7px}.brand small{letter-spacing:.35px}}
+
+
+/* Bottom navigation: keep every destination readable and swipeable */
+nav{justify-content:flex-start;overflow-x:auto;overflow-y:hidden;white-space:nowrap;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-left:8px;padding-right:8px;gap:3px}
+nav::-webkit-scrollbar{display:none}
+nav button{flex:0 0 auto;width:auto;min-width:max-content;max-width:none;padding:13px 12px;font-size:9px;letter-spacing:.25px}
+nav button.on{border-bottom:3px solid var(--ww-cyan);font-weight:800}
+@media(max-width:620px){nav{justify-content:flex-start}nav button{flex:0 0 auto;padding:13px 10px;font-size:9px;letter-spacing:0}}
+/* Bring country profiles into the first screenful of the intelligence page */
+.country-heading{margin-top:20px;margin-bottom:10px}
+.country-grid{margin:10px 0 18px;gap:10px}
+.country-card{padding:13px}
